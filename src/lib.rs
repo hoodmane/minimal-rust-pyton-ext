@@ -2,7 +2,7 @@ pub type Py_ssize_t = isize;
 use std::os::raw::{c_int, c_uchar, c_void};
 
 // opaque struct
-#[repr(C)] 
+#[repr(C)]
 pub struct PyTypeObject { private: [u8; 0] }
 
 #[repr(C)]
@@ -113,10 +113,10 @@ pub unsafe extern "C" fn PyInit_mymod() -> *mut PyObject
 {
     let mut m_methods = [
         // PyMethodDef {
-        //     ml_name : "my_func".as_ptr(),
+        //     ml_name : "my_func\0".as_ptr(),
         //     ml_meth : Some(my_func),
         //     ml_flags : METH_NOARGS,
-        //     ml_doc : "Says hello".as_ptr() 
+        //     ml_doc : "Says hello\0".as_ptr()
         // },
         PyMethodDef {
             ml_name : std::ptr::null(),
@@ -158,12 +158,12 @@ pub unsafe extern "C" fn PyInit_mymod() -> *mut PyObject
     PyModule_Create2(&mut mod_def as *mut PyModuleDef, 1013)
 
     // println!("1");
-    // let module = PyModule_New("mymod".as_ptr());
+    // let module = PyModule_New("mymod\0".as_ptr());
     // println!("2");
     // // PyObject_Print(module, 1, 0);
     // println!("3");
 
-    // let nameobj = PyUnicode_FromString("mymod".as_ptr());
+    // let nameobj = PyUnicode_FromString("mymod\0".as_ptr());
     // if nameobj.is_null(){
     //     return std::ptr::null_mut();
     // }
@@ -172,7 +172,7 @@ pub unsafe extern "C" fn PyInit_mymod() -> *mut PyObject
     // // PyObject_Print(nameobj, 1, 0);
     // if nameobj.is_null() {
     //     return std::ptr::null_mut();
-    // }        
+    // }
     // println!("4");
     // if module.is_null() {
     //     return std::ptr::null_mut();
